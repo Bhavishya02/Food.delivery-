@@ -17,27 +17,31 @@ This is a **Food delivery project** built with **FastAPI** and **SQLite**, desig
 
 
 ## Installation & Setup
-### **1️⃣ Clone the Repository**
+### ** Clone the Repository**
 ```bash
 git clone https://github.com/your-username/food-delivery-api.git
 cd food-delivery
 ```
 
-### **2️⃣ Create & Activate Virtual Environment**
+### ** Create & Activate Virtual Environment**
 ```bash
 python -m venv venv
 source venv/bin/activate  # On Mac/Linux
 venv\Scripts\activate  # On Windows
 ```
 
-### **3️⃣ Install Dependencies**
+### ** Install Dependencies**
 ```bash
 pip install -r requirements.txt
 ```
-
-### **5️⃣ Start the Server**
+### ** Start the Server**
 ```bash
 uvicorn main:app --reload
+```
+
+### **Run streamlit frontend**
+```bash
+streamlit run frontend.py
 ```
 
 ### **6️⃣ Access API Documentation**
