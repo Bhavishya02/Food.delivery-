@@ -1,7 +1,7 @@
 # Food Delivery
 
 ## Overview
-This is a **Food delivery project** built with **FastAPI** and **SQLite/PostgreSQL**, designed to handle user authentication, restaurant management, orders, and delivery assignments. The API provides endpoints for users to place orders, restaurants to manage menus, and riders to handle deliveries efficiently.
+This is a **Food delivery project** built with **FastAPI** and **SQLite**, designed to handle user authentication, restaurant management, orders, and delivery assignments. The API provides endpoints for users to place orders, restaurants to manage menus, and riders to handle deliveries efficiently.
 
 ## Features
 - **User Authentication** (Register/Login)
@@ -35,11 +35,6 @@ venv\Scripts\activate  # On Windows
 pip install -r requirements.txt
 ```
 
-### **4️⃣ Run Database Migrations**
-```bash
-python init_db.py
-```
-
 ### **5️⃣ Start the Server**
 ```bash
 uvicorn main:app --reload
@@ -57,12 +52,10 @@ uvicorn main:app --reload
 ### **Restaurants & Menus**
 - **Register Restaurant:** `POST /register_restaurant`
 - **Add Menu Item:** `POST /add_menu_item`
-- **Suggest Restaurants:** `GET /suggest_restaurants/{cuisine}/{max_time}`
+
 
 ### **Orders & Delivery**
 - **Place Order:** `POST /place_order`
-- **User Order History:** `GET /user_order_history/{user_id}`
-- **Rider Order History:** `GET /rider_order_history/{rider_id}`
 - **Update Rider Location:** `PUT /update_rider_location/{rider_id}`
 
 
