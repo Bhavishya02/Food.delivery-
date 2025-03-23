@@ -1,71 +1,73 @@
-# Getting Started with Create React App
+# Food Delivery
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
+This is a **Food delivery project** built with **FastAPI** and **SQLite/PostgreSQL**, designed to handle user authentication, restaurant management, orders, and delivery assignments. The API provides endpoints for users to place orders, restaurants to manage menus, and riders to handle deliveries efficiently.
 
-## Available Scripts
+## Features
+- **User Authentication** (Register/Login)
+- **Restaurant Management** (Add/View restaurants & menus)
+- **Order Placement & Assignment** (Order food & auto-assign riders)
+- **Delivery Tracking** (Rider location updates)
 
-In the project directory, you can run:
 
-### `npm start`
+## Tech Stack
+- **Backend:** FastAPI
+- **Database:** SQLite 
+- **ORM:** SQLAlchemy
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Installation & Setup
+### **1️⃣ Clone the Repository**
+```bash
+git clone https://github.com/your-username/food-delivery-api.git
+cd food-delivery
+```
 
-### `npm test`
+### **2️⃣ Create & Activate Virtual Environment**
+```bash
+python -m venv venv
+source venv/bin/activate  # On Mac/Linux
+venv\Scripts\activate  # On Windows
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### **3️⃣ Install Dependencies**
+```bash
+pip install -r requirements.txt
+```
 
-### `npm run build`
+### **4️⃣ Run Database Migrations**
+```bash
+python init_db.py
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### **5️⃣ Start the Server**
+```bash
+uvicorn main:app --reload
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### **6️⃣ Access API Documentation**
+- Swagger UI: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- Redoc: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## API Endpoints
+### **User Authentication**
+- **Register User:** `POST /register_user`
+- **Login User:** `POST /login`
 
-### `npm run eject`
+### **Restaurants & Menus**
+- **Register Restaurant:** `POST /register_restaurant`
+- **Add Menu Item:** `POST /add_menu_item`
+- **Suggest Restaurants:** `GET /suggest_restaurants/{cuisine}/{max_time}`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### **Orders & Delivery**
+- **Place Order:** `POST /place_order`
+- **User Order History:** `GET /user_order_history/{user_id}`
+- **Rider Order History:** `GET /rider_order_history/{rider_id}`
+- **Update Rider Location:** `PUT /update_rider_location/{rider_id}`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Contributing
+Feel free to contribute by creating a pull request or raising an issue.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# backend_food_delivery
