@@ -6,18 +6,17 @@ import random
 
 app = FastAPI()
 
-DATABASE_URL = "sqlite:///./food_delivery.db"  # Replace with PostgreSQL for production
+DATABASE_URL = "sqlite:///./food_delivery.db"  
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-# Database Models
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True, unique=True)
     address = Column(String)
-    password = Column(String)  # Added password field
+    password = Column(String) 
 
 class Rider(Base):
     __tablename__ = "riders"
@@ -54,7 +53,6 @@ class Order(Base):
 
 Base.metadata.create_all(bind=engine)
 
-# Pydantic Models
 class UserCreate(BaseModel):
     name: str
     address: str
@@ -82,7 +80,6 @@ class OrderCreate(BaseModel):
     user_id: int
     restaurant_id: int
 
-# Dependency
 def get_db():
     db = SessionLocal()
     try:
@@ -90,11 +87,9 @@ def get_db():
     finally:
         db.close()
 
-# API Endpoints
 
 @app.post("/register_user")
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
-    # Check if user already exists
     if db.query(User).filter(User.name == user.name).first():
         raise HTTPException(status_code=400, detail="Username already exists")
     db_user = User(name=user.name, address=user.address, password=user.password)
@@ -136,7 +131,6 @@ def add_menu_item(menu: MenuCreate, db: Session = Depends(get_db)):
 
 @app.get("/suggest_restaurants/{cuisine}/{max_time}")
 def suggest_restaurants(cuisine: str, max_time: int, db: Session = Depends(get_db)):
-    # Partial, case-insensitive match for cuisine
     restaurants = db.query(Restaurant).filter(Restaurant.cuisine.ilike(f"%{cuisine}%")).all()
     if not restaurants:
         raise HTTPException(status_code=404, detail="No restaurants found")

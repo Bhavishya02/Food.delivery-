@@ -1,9 +1,9 @@
 import streamlit as st
 import requests
 
-API_URL = "http://127.0.0.1:8000"  # Update if hosted elsewhere
+API_URL = "http://127.0.0.1:8000"  
 
-# Initialize session state for login status and role info
+
 if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
 if "role" not in st.session_state:
@@ -13,10 +13,10 @@ if "user_info" not in st.session_state:
 
 st.title("Food Delivery App")
 
-# Top-level role selection (User, Restaurant, Rider)
+
 role = st.sidebar.selectbox("I am a", ["User", "Restaurant", "Rider"], key="role_select")
 
-# If not logged in, show login/registration radio buttons
+
 if not st.session_state["logged_in"]:
     auth_option = st.sidebar.radio("Choose Action", ["Login", "Register"], key="auth_option")
     
@@ -26,7 +26,7 @@ if not st.session_state["logged_in"]:
             login_name = st.text_input("Name", key="user_login_name")
             login_password = st.text_input("Password", type="password", key="user_login_password")
             if st.button("Login as User"):
-                # Call user login endpoint
+               
                 response = requests.post(f"{API_URL}/login", json={"name": login_name, "password": login_password})
                 if response.status_code == 200:
                     st.session_state["logged_in"] = True
@@ -37,13 +37,10 @@ if not st.session_state["logged_in"]:
                     st.error("Invalid credentials for User.")
                     
         elif role == "Restaurant":
-            # Dummy login: user enters Restaurant ID manually (or you can implement a real endpoint)
+           
             restaurant_id = st.number_input("Restaurant ID", min_value=1, key="restaurant_login_id")
             if st.button("Login as Restaurant"):
-                # For demonstration, retrieve all restaurants and find matching ID
-                # (In production, create a proper login endpoint for restaurants.)
                 resp = requests.get(f"{API_URL}/suggest_restaurants/%%", params={"max_time":1})
-                # We assume the response returns a list and we search for the id.
                 if resp.status_code == 200:
                     restaurants = resp.json()
                     restaurant = next((res for res in restaurants if res["id"] == restaurant_id), None)
@@ -58,16 +55,14 @@ if not st.session_state["logged_in"]:
                     st.error("Error fetching restaurant data.")
                     
         elif role == "Rider":
-            # Dummy login for Rider by ID (simulate proper login in production)
             rider_id = st.number_input("Rider ID", min_value=1, key="rider_login_id")
             if st.button("Login as Rider"):
-                # For demonstration, assume login is successful if rider_id is provided.
                 st.session_state["logged_in"] = True
                 st.session_state["role"] = "Rider"
                 st.session_state["user_info"] = {"id": rider_id}
                 st.success(f"Logged in as Rider {rider_id}")
     
-    else:  # Registration
+    else: 
         st.subheader(f"{role} Registration")
         if role == "User":
             reg_name = st.text_input("Name", key="user_reg_name")
@@ -113,7 +108,7 @@ if not st.session_state["logged_in"]:
                     st.error(response.json().get("detail", "Registration failed."))
                     
 else:
-    # Once logged in, show role-specific menus.
+  
     role = st.session_state["role"]
     st.sidebar.markdown(f"**Logged in as {role}**")
     if role == "User":
@@ -142,7 +137,7 @@ else:
             cuisine = st.text_input("Enter Cuisine for Search", key="order_cuisine")
             max_time = st.number_input("Max Time (minutes)", min_value=1, key="order_time")
             
-            # Search button logic
+          
             if st.button("Search Restaurants", key="order_search"):
                 response = requests.get(f"{API_URL}/suggest_restaurants/{cuisine}/{max_time}")
                 if response.status_code == 200:
@@ -155,7 +150,7 @@ else:
                 else:
                     st.write("Error searching restaurants.")
             
-            # If search results exist, allow selection and order placement
+           
             if "restaurant_results" in st.session_state and st.session_state["restaurant_results"]:
                 restaurant_map = st.session_state["restaurant_results"]
                 selected_restaurant = st.selectbox("Select Restaurant", list(restaurant_map.keys()))
@@ -168,30 +163,7 @@ else:
                         }
                     )
                     st.write(order_response.json())                    
-        # elif user_menu == "Place Order":
-        #     st.subheader("Place Order")
-        #     cuisine = st.text_input("Enter Cuisine for Search", key="order_cuisine")
-        #     max_time = st.number_input("Max Time (minutes)", min_value=1, key="order_time")
-        #     if st.button("Search Restaurants", key="order_search"):
-        #         response = requests.get(f"{API_URL}/suggest_restaurants/{cuisine}/{max_time}")
-        #         if response.status_code == 200:
-        #             restaurants = response.json()
-        #             if restaurants:
-        #                 restaurant_map = {restaurant["name"]: restaurant for restaurant in restaurants}
-        #                 selected_restaurant = st.selectbox("Select Restaurant", list(restaurant_map.keys()))
-        #                 if st.button("Place Order", key="order_btn"):
-        #                     order_response = requests.post(
-        #                         f"{API_URL}/place_order",
-        #                         json={
-        #                             "user_id": st.session_state["user_info"]["id"],
-        #                             "restaurant_id": restaurant_map[selected_restaurant]["id"]
-        #                         }
-        #                     )
-        #                     st.write(order_response.json())
-        #             else:
-        #                 st.write("No restaurants found matching your search.")
-        #         else:
-        #             st.write("Error searching restaurants.")
+       
                     
         elif user_menu == "My Order History":
             st.subheader("My Order History")
@@ -229,8 +201,6 @@ else:
                     st.error("Failed to add menu item.")
         elif res_menu == "View Orders":
             st.subheader("Orders for Your Restaurant")
-            # Here you might call an endpoint like /restaurant_order_history/{restaurant_id}
-            # For demonstration, we'll use the user_order_history endpoint filtered by restaurant_id.
             restaurant_id = st.session_state["user_info"]["id"]
             response = requests.get(f"{API_URL}/user_order_history/{restaurant_id}")
             if response.status_code == 200:
